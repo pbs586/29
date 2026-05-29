@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강원도 사전투표 실시간 대시보드 — 제9회 지방선거 1일차</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="강원특별자치도 · 제9회 지방선거">
+<meta property="og:description" content="26.05.29. 사전투표 1일차 현황 — 18시 기준 누적 14.37% (8회 동시간대 13.32%, +1.05p)">
+<meta property="og:image" content="https://pbs586.github.io/29/og.png?v=18시">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://pbs586.github.io/29/">
+<meta property="og:site_name" content="강원도 사전투표 대시보드">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="강원특별자치도 · 제9회 지방선거">
+<meta name="twitter:description" content="26.05.29. 사전투표 1일차 현황 — 18시 기준 누적 14.37%">
+<meta name="twitter:image" content="https://pbs586.github.io/29/og.png?v=18시">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Malgun Gothic', sans-serif;
+    background: #f7f8fb;
+    color: #0f172a; margin: 0; padding: 20px; min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap { max-width: 1600px; margin: 0 auto; }
+  .hero {
+    background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #7c3aed 100%);
+    padding: 30px 36px; border-radius: 18px; position: relative; overflow: hidden;
+    box-shadow: 0 10px 30px rgba(37,99,235,0.22);
+  }
+  .hero::before {
+    content: ''; position: absolute; right: -60px; top: -60px;
+    width: 280px; height: 280px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.18), transparent 70%);
+  }
+  .hero h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.5px; color: #fff; }
+  .hero .meta { color: rgba(255,255,255,0.88); font-size: 13.5px; }
+  .hero .live {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(239,68,68,0.95); color: #fff;
+    padding: 4px 11px; border-radius: 999px; font-size: 11.5px; font-weight: 700; margin-right: 8px;
+  }
+  .hero .live::before { content: ''; width: 7px; height: 7px; background: #fff; border-radius: 50%;
+                         animation: pulse 1.4s infinite; }
+  @keyframes pulse { 0%,100% {opacity:1;} 50% {opacity:0.3;} }
+
+  .kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin: 18px 0; }
+  .kpi {
+    background: #ffffff; border: 1px solid #e5e7eb;
+    border-radius: 12px; padding: 16px 18px; position: relative; overflow: hidden;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+  }
+  .kpi::after { content:''; position:absolute; left:0; top:0; bottom:0; width:4px; background: var(--ac, #3b82f6); }
+  .kpi.k1 { --ac: #3b82f6; }
+  .kpi.k2 { --ac: #f59e0b; }
+  .kpi.k3 { --ac: #8b5cf6; }
+  .kpi.k4 { --ac: #10b981; }
+  .kpi.k5 { --ac: #ef4444; }
+  .kpi .label { color: #64748b; font-size: 12.5px; font-weight: 600; }
+  .kpi .value { font-size: 28px; font-weight: 800; color: #0f172a; margin: 6px 0 6px; letter-spacing: -0.4px; font-variant-numeric: tabular-nums; }
+  .kpi .sub { font-size: 13px; color: #334155; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .kpi .sub b { color: #0f172a; font-weight: 800; }
+  .kpi .delta { display: inline-block; margin-top: 8px; padding: 4px 10px; border-radius: 999px;
+                  font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .delta.up { background: #fee2e2; color: #b91c1c; }
+  .delta.down { background: #dbeafe; color: #1d4ed8; }
+
+  .row { display: grid; gap: 14px; margin-bottom: 14px; align-items: stretch; }
+  .row.r2 { grid-template-columns: 1.4fr 1fr; }
+  .row.r1 { grid-template-columns: 1fr; }
+  .card {
+    background: #ffffff; border: 1px solid #e5e7eb;
+    border-radius: 14px; padding: 18px 22px;
+    box-shadow: 0 1px 3px rgba(15,23,42,0.04);
+    display: flex; flex-direction: column;
+  }
+  .card > .chart-wrap, .card > .movers { flex: 1; min-height: 0; }
+  .card h3 { margin: 0 0 3px; font-size: 15.5px; color: #0f172a; }
+  .card .desc { color: #64748b; font-size: 11.5px; margin-bottom: 12px; }
+  .chart-wrap { position: relative; height: 320px; }
+  .chart-wrap.tall { height: 380px; }
+
+  /* ===== MAP ===== */
+  .map-card { padding: 16px 18px; }
+  .map-stage {
+    position: relative; width: 100%;
+    aspect-ratio: 3027 / 2531;
+    background: rgba(15,23,42,0.55); border-radius: 10px;
+    overflow: hidden;
+  }
+  .map-stage svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    display: block;
+  }
+  .marker {
+    position: absolute; transform: translate(-50%, -50%);
+    display: flex; flex-direction: column; align-items: center;
+    cursor: pointer; transition: transform 0.18s ease, filter 0.18s ease;
+    z-index: 2;
+  }
+  .marker:hover { transform: translate(-50%, -50%) scale(1.18); z-index: 5; }
+  .marker .bubble {
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    color: #0f172a; font-weight: 800; font-size: 11px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.45), 0 0 0 2px rgba(255,255,255,0.9);
+  }
+  .marker .lbl {
+    margin-top: 4px; font-size: 11px; font-weight: 700; color: #f1f5f9;
+    background: rgba(15,23,42,0.85); padding: 2px 7px; border-radius: 999px;
+    white-space: nowrap; pointer-events: none;
+    border: 1px solid rgba(148,163,184,0.25);
+  }
+  .map-legend {
+    display: flex; justify-content: center; align-items: center; gap: 14px;
+    margin-top: 10px; font-size: 11.5px; color: #cbd5e1; flex-wrap: wrap;
+  }
+  .map-legend .item { display: inline-flex; align-items: center; gap: 5px; }
+  .map-legend .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block;
+                       border: 2px solid rgba(255,255,255,0.85); }
+  .tooltip {
+    position: absolute; z-index: 10; pointer-events: none;
+    background: rgba(15,23,42,0.97); color: #f1f5f9; padding: 10px 12px;
+    border-radius: 8px; font-size: 12px; min-width: 170px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    border: 1px solid rgba(148,163,184,0.3); opacity: 0; transition: opacity 0.15s;
+  }
+  .tooltip.show { opacity: 1; }
+  .tooltip b { color: #fbbf24; font-size: 13px; }
+  .tooltip .row-t { display: flex; justify-content: space-between; gap: 14px; margin-top: 4px; }
+  .tooltip .row-t span:first-child { color: #94a3b8; }
+
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: collapse; font-size: 13.5px; min-width: 760px; font-variant-numeric: tabular-nums; }
+
+  /* ===== 상세 카드 헤더 + 토글 + 정렬뱃지 ===== */
+  .detail-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+  .detail-head h3 { margin: 0 0 3px; font-size: 15.5px; color: #0f172a; }
+  .detail-head .desc { color: #64748b; font-size: 11.5px; }
+  .sort-badge { display: inline-block; background: #fef3c7; color: #b45309;
+                  font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+  .view-toggle { display: inline-flex; background: #f1f5f9; border-radius: 999px; padding: 3px; border: 1px solid #e2e8f0; }
+  .vt-btn { background: transparent; color: #64748b; border: 0; padding: 7px 14px; border-radius: 999px;
+              font-size: 12.5px; font-weight: 600; cursor: pointer; transition: all 0.18s;
+              font-family: inherit; white-space: nowrap; }
+  .vt-btn:hover { color: #0f172a; }
+  .vt-btn.active { background: #3b82f6; color: #fff; box-shadow: 0 2px 8px rgba(59,130,246,0.3); }
+
+  .view-onepager { display: none; flex-direction: column; gap: 8px; }
+  .view-table.hide, .view-onepager.hide { display: none !important; }
+  .view-onepager.show { display: flex; }
+
+  /* ===== 원페이퍼 카드 ===== */
+  .op-card {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 14px; align-items: center;
+    background: #fbfcfe; border: 1px solid #e5e7eb;
+    border-radius: 10px; padding: 12px 14px;
+    border-left: 4px solid var(--ac, #94a3b8);
+  }
+  .op-card.op-up { --ac: #ef4444; }
+  .op-card.op-down { --ac: #3b82f6; }
+  .op-card.op-flat { --ac: #94a3b8; }
+  .op-card.op-total { background: #fffbeb; border-color: #fcd34d; --ac: #f59e0b; }
+  .op-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .op-rank { display: inline-flex; align-items: center; justify-content: center;
+              min-width: 28px; height: 28px; padding: 0 8px;
+              background: #dbeafe; color: #1d4ed8; border-radius: 8px;
+              font-size: 12px; font-weight: 800; }
+  .op-card.op-total .op-rank { display: none; }
+  .op-name-wrap { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; min-width: 0; }
+  .op-name { font-size: 15.5px; font-weight: 800; color: #0f172a; }
+  .op-card.op-total .op-name { color: #b45309; }
+  .op-elec { font-size: 12.5px; color: #334155; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .op-elec b { color: #0f172a; font-weight: 800; }
+  .op-mid { text-align: right; min-width: 96px; }
+  .op-pct { font-size: 22px; font-weight: 800; color: #2563eb; letter-spacing: -0.3px; font-variant-numeric: tabular-nums; }
+  .op-card.op-total .op-pct { color: #b45309; }
+  .op-vs { font-size: 12px; color: #334155; margin-top: 2px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .op-vs b { color: #0f172a; font-weight: 800; }
+  .op-right { min-width: 78px; text-align: right; }
+  .op-diff { display: inline-block; padding: 5px 10px; border-radius: 999px;
+              font-size: 12px; font-weight: 800; }
+  .op-diff.up { background: #fee2e2; color: #b91c1c; }
+  .op-diff.down { background: #dbeafe; color: #1d4ed8; }
+  .op-diff.flat { background: #f1f5f9; color: #64748b; }
+  th, td { padding: 10px 8px; text-align: center; border-bottom: 1px solid #eef1f6; }
+  th { background: #f8fafc; color: #475569; font-weight: 700; font-size: 12px; }
+  td.region { text-align: left; padding-left: 14px; font-weight: 700; color: #0f172a; }
+  td.now { color: #2563eb; font-weight: 700; }
+  td.prev { color: #64748b; }
+  td.diff { font-weight: 700; }
+  td.diff.up { color: #dc2626; }
+  td.diff.down { color: #2563eb; }
+  tr.total-row td { background: #fef3c7; border-bottom: 2px solid #f59e0b; font-weight: 800; }
+  tr.total-row td.region { color: #b45309; }
+  tr:hover td { background: #f8fafc; }
+  tr.total-row:hover td { background: #fde68a; }
+
+  .movers { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mover-col { display: flex; flex-direction: column; }
+  .mover-col h4 { margin: 0 0 10px; font-size: 13.5px; color: #334155; font-weight: 700; }
+  .mover-col .mover-list { display: flex; flex-direction: column; gap: 6px; flex: 1; justify-content: space-between; }
+  .mover { display: flex; align-items: center; justify-content: space-between;
+            background: #f8fafc; border: 1px solid #eef1f6;
+            padding: 11px 13px; border-radius: 8px; flex: 1; }
+  .mover .name { font-weight: 700; color: #0f172a; font-size: 13.5px; }
+  .mover .val { font-weight: 800; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  .mover .val.up { color: #dc2626; }
+  .mover .val.down { color: #2563eb; }
+
+  .pred-banner {
+    background: linear-gradient(135deg, rgba(124,58,237,0.22), rgba(236,72,153,0.14));
+    border: 1px solid rgba(167,139,250,0.4); border-radius: 14px; padding: 16px 22px;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  }
+  .pred-banner .icon { font-size: 26px; }
+  .pred-banner .txt { flex: 1; min-width: 200px; }
+  .pred-banner .txt b { color: #fbbf24; font-size: 16px; }
+  .pred-banner .num { font-size: 30px; font-weight: 800; color: #fbbf24; letter-spacing: -0.5px; }
+  .pred-banner .num small { font-size: 13px; font-weight: 600; color: #cbd5e1; margin-left: 3px; }
+  .pred-banner .col { text-align: right; }
+  .pred-banner .col .lab { color: #cbd5e1; font-size: 11px; font-weight: 600; }
+
+  .footer { text-align: center; color: #64748b; font-size: 11px; margin-top: 16px; padding: 14px; }
+
+  /* tablet */
+  @media (max-width: 1100px) {
+    .kpi-grid { grid-template-columns: repeat(3, 1fr); }
+    .row.r2 { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 24px; }
+  }
+  /* mobile */
+  @media (max-width: 700px) {
+    body { padding: 12px; }
+    .hero { padding: 22px 18px; border-radius: 14px; }
+    .hero h1 { font-size: 20px; }
+    .hero .meta { font-size: 12px; }
+    .pred-banner { padding: 14px 16px; gap: 12px; flex-direction: column; align-items: stretch; }
+    .pred-banner .col { display: flex; justify-content: space-between; align-items: baseline; text-align: left; }
+    .pred-banner .col .lab { font-size: 12px; }
+    .pred-banner .num { font-size: 24px; }
+    .pred-banner .txt { width: 100%; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .kpi { padding: 12px 12px; border-radius: 10px; }
+    .kpi .label { font-size: 11.5px; }
+    .kpi .value { font-size: 22px; }
+    .kpi .sub { font-size: 12.5px; }
+    .kpi .delta { font-size: 11px; padding: 3px 8px; }
+    .card { padding: 14px 14px; border-radius: 12px; }
+    .card h3 { font-size: 14.5px; }
+    .card .desc { font-size: 11.5px; }
+    .chart-wrap, .chart-wrap.tall { height: 260px; }
+    .movers { grid-template-columns: 1fr; }
+    .mover { padding: 9px 11px; }
+    .mover .name, .mover .val { font-size: 13px; }
+    table { font-size: 12.5px; min-width: 680px; }
+    th, td { padding: 8px 6px; }
+    .footer { font-size: 10.5px; padding: 10px; }
+    .detail-head { flex-direction: column; align-items: stretch; }
+    .view-toggle { align-self: stretch; }
+    .vt-btn { flex: 1; padding: 9px 10px; font-size: 13px; }
+    .op-card { grid-template-columns: 1fr auto; gap: 10px; padding: 11px 12px; }
+    .op-right { grid-column: 2; grid-row: 1; }
+    .op-mid { grid-column: 1 / 3; grid-row: 2; text-align: left; display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+    .op-mid .op-pct { font-size: 22px; }
+    .op-name-wrap { flex-direction: column; gap: 2px; align-items: flex-start; }
+    .op-rank { min-width: 26px; height: 26px; font-size: 11.5px; }
+    .op-name { font-size: 14.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div style="margin-bottom:8px;">
+      <span class="live">LIVE</span>
+      <span class="meta">2026-05-29 · 18시 기준 · 자료: 중앙선거관리위원회 선거통계시스템</span>
+    </div>
+    <h1>강원도 사전투표 실시간 대시보드</h1>
+    <div class="meta">제9회 전국동시지방선거 1일차 현황 + 제8회(2022) 동시간대 비교</div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi k1">
+      <div class="label">9회 누적 사전투표율 (18시)</div>
+      <div class="value">14.37%</div>
+      <div class="sub">투표자수 <b>191,046</b>명</div>
+      <span class="delta up">▲ 8회 대비 1.05p</span>
+    </div>
+    <div class="kpi k2">
+      <div class="label">8회 동시간대 (18시)</div>
+      <div class="value">13.32%</div>
+      <div class="sub">8회 1일차 18시 <b>13.32%</b></div>
+    </div>
+    <div class="kpi k3">
+      <div class="label">직전 1시간 추가 (17시→18시)</div>
+      <div class="value">+17,530</div>
+      <div class="sub">8회 같은 구간 <b>+14,955</b>명</div>
+      <span class="delta up">▲ 2,575명</span>
+    </div>
+    <div class="kpi k4">
+      <div class="label">선거인수</div>
+      <div class="value">1,329,742</div>
+      <div class="sub">18개 시·군 합계</div>
+    </div>
+    <div class="kpi k5">
+      <div class="label">8회 대비 상승 시·군</div>
+      <div class="value">16 / 18</div>
+      <div class="sub"><b>88%</b> 우세</div>
+    </div>
+  </div>
+
+  <div class="row r2">
+    <div class="card">
+      <h3>📈 시간대별 누적 사전투표율 추이</h3>
+      <div class="desc">9회 실측(실선) · 9회 예측(점선) · 8회(2022) 동시간대</div>
+      <div class="chart-wrap tall"><canvas id="lineChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>8회 대비 격차 TOP/BOTTOM</h3>
+      <div class="desc">18시 동시간대 비교</div>
+      <div class="movers">
+        <div class="mover-col">
+          <h4>🔥 상승 TOP 5</h4>
+          <div class="mover-list">
+          <div class="mover"><span class="name">속초시</span><span class="val up">▲ 2.90p</span></div><div class="mover"><span class="name">철원군</span><span class="val up">▲ 2.76p</span></div><div class="mover"><span class="name">양양군</span><span class="val up">▲ 2.54p</span></div><div class="mover"><span class="name">고성군</span><span class="val up">▲ 1.78p</span></div><div class="mover"><span class="name">영월군</span><span class="val up">▲ 1.39p</span></div>
+          </div>
+        </div>
+        <div class="mover-col">
+          <h4>❄️ 하락 BOTTOM 5</h4>
+          <div class="mover-list">
+          <div class="mover"><span class="name">인제군</span><span class="val down">▼ 0.93p</span></div><div class="mover"><span class="name">횡성군</span><span class="val down">▼ 0.24p</span></div><div class="mover"><span class="name">양구군</span><span class="val down">▼ 0.02p</span></div><div class="mover"><span class="name">평창군</span><span class="val down">▼ 0.05p</span></div><div class="mover"><span class="name">홍천군</span><span class="val down">▼ 0.07p</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row r1">
+    <div class="card">
+      <div class="detail-head">
+        <div>
+          <h3>📋 시·군별 상세 현황 <span class="sort-badge">투표율순 ↓</span></h3>
+          <div class="desc">18시 기준 시·군별 누적 사전투표 현황 + 8회 동시간대 비교</div>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table>
+          <thead>
+            <tr>
+              <th style="text-align:left;padding-left:14px;">시·군</th>
+              <th>선거인수</th>
+              <th>18시 투표자</th>
+              <th>9회 18시</th>
+              <th>8회 18시</th>
+              <th>증감</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+    <tr class="total-row">
+      <td class="region">합계</td>
+      <td>1,329,742</td>
+      <td>191,046</td>
+      <td class="now">14.37%</td>
+      <td class="prev">13.32%</td>
+      <td class="diff up">▲ 1.05p</td>
+    </tr>
+    <tr class="">
+      <td class="region">정선군</td>
+      <td>32,424</td>
+      <td>6,429</td>
+      <td class="now">19.83%</td>
+      <td class="prev">19.12%</td>
+      <td class="diff up">▲ 0.71p</td>
+    </tr>
+    <tr class="">
+      <td class="region">평창군</td>
+      <td>36,827</td>
+      <td>7,229</td>
+      <td class="now">19.63%</td>
+      <td class="prev">19.58%</td>
+      <td class="diff up">▲ 0.05p</td>
+    </tr>
+    <tr class="">
+      <td class="region">화천군</td>
+      <td>19,910</td>
+      <td>3,779</td>
+      <td class="now">18.98%</td>
+      <td class="prev">17.91%</td>
+      <td class="diff up">▲ 1.07p</td>
+    </tr>
+    <tr class="">
+      <td class="region">태백시</td>
+      <td>32,945</td>
+      <td>6,232</td>
+      <td class="now">18.92%</td>
+      <td class="prev">18.21%</td>
+      <td class="diff up">▲ 0.71p</td>
+    </tr>
+    <tr class="">
+      <td class="region">양양군</td>
+      <td>25,006</td>
+      <td>4,714</td>
+      <td class="now">18.85%</td>
+      <td class="prev">16.31%</td>
+      <td class="diff up">▲ 2.54p</td>
+    </tr>
+    <tr class="">
+      <td class="region">삼척시</td>
+      <td>54,529</td>
+      <td>10,074</td>
+      <td class="now">18.47%</td>
+      <td class="prev">17.86%</td>
+      <td class="diff up">▲ 0.61p</td>
+    </tr>
+    <tr class="">
+      <td class="region">영월군</td>
+      <td>32,788</td>
+      <td>6,042</td>
+      <td class="now">18.43%</td>
+      <td class="prev">17.04%</td>
+      <td class="diff up">▲ 1.39p</td>
+    </tr>
+    <tr class="">
+      <td class="region">양구군</td>
+      <td>17,718</td>
+      <td>3,244</td>
+      <td class="now">18.31%</td>
+      <td class="prev">18.29%</td>
+      <td class="diff up">▲ 0.02p</td>
+    </tr>
+    <tr class="">
+      <td class="region">횡성군</td>
+      <td>41,729</td>
+      <td>7,420</td>
+      <td class="now">17.78%</td>
+      <td class="prev">18.02%</td>
+      <td class="diff down">▼ 0.24p</td>
+    </tr>
+    <tr class="">
+      <td class="region">인제군</td>
+      <td>27,221</td>
+      <td>4,832</td>
+      <td class="now">17.75%</td>
+      <td class="prev">18.68%</td>
+      <td class="diff down">▼ 0.93p</td>
+    </tr>
+    <tr class="">
+      <td class="region">고성군</td>
+      <td>24,697</td>
+      <td>4,168</td>
+      <td class="now">16.88%</td>
+      <td class="prev">15.10%</td>
+      <td class="diff up">▲ 1.78p</td>
+    </tr>
+    <tr class="">
+      <td class="region">속초시</td>
+      <td>69,527</td>
+      <td>10,512</td>
+      <td class="now">15.12%</td>
+      <td class="prev">12.22%</td>
+      <td class="diff up">▲ 2.90p</td>
+    </tr>
+    <tr class="">
+      <td class="region">철원군</td>
+      <td>35,270</td>
+      <td>5,272</td>
+      <td class="now">14.95%</td>
+      <td class="prev">12.19%</td>
+      <td class="diff up">▲ 2.76p</td>
+    </tr>
+    <tr class="">
+      <td class="region">홍천군</td>
+      <td>59,780</td>
+      <td>8,589</td>
+      <td class="now">14.37%</td>
+      <td class="prev">14.30%</td>
+      <td class="diff up">▲ 0.07p</td>
+    </tr>
+    <tr class="">
+      <td class="region">동해시</td>
+      <td>74,929</td>
+      <td>10,478</td>
+      <td class="now">13.98%</td>
+      <td class="prev">12.95%</td>
+      <td class="diff up">▲ 1.03p</td>
+    </tr>
+    <tr class="">
+      <td class="region">강릉시</td>
+      <td>182,963</td>
+      <td>24,201</td>
+      <td class="now">13.23%</td>
+      <td class="prev">12.13%</td>
+      <td class="diff up">▲ 1.10p</td>
+    </tr>
+    <tr class="">
+      <td class="region">춘천시</td>
+      <td>247,875</td>
+      <td>31,877</td>
+      <td class="now">12.86%</td>
+      <td class="prev">11.64%</td>
+      <td class="diff up">▲ 1.22p</td>
+    </tr>
+    <tr class="">
+      <td class="region">원주시</td>
+      <td>313,604</td>
+      <td>35,954</td>
+      <td class="now">11.46%</td>
+      <td class="prev">10.30%</td>
+      <td class="diff up">▲ 1.16p</td>
+    </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    출처: 중앙선거관리위원회 선거통계시스템 · 작성: 2026-05-29 18시 기준 ·
+    예측치는 8회(2022) 1일차 시간대 패턴 기반 추정으로 실제와 다를 수 있음
+  </div>
+</div>
+
+<script>
+const D = {"hours": ["7시", "8시", "9시", "10시", "11시", "12시", "13시", "14시", "15시", "16시", "17시", "18시"], "latest_idx": 11, "latest_hour": "18시", "total8_pcts": [0.66, 1.26, 2.13, 3.4, 4.78, 5.99, 7.13, 8.44, 9.77, 11.01, 12.2, 13.32], "total9_actual": [0.67, 1.3, 2.22, 3.51, 4.87, 6.16, 7.59, 9.03, 10.42, 11.75, 13.05, 14.37], "total9_pred": [0.67, 1.3, 2.22, 3.51, 4.87, 6.16, 7.59, 9.03, 10.42, 11.75, 13.05, 14.37], "regions": ["정선군", "평창군", "화천군", "태백시", "양양군", "삼척시", "영월군", "양구군", "횡성군", "인제군", "고성군", "속초시", "철원군", "홍천군", "동해시", "강릉시", "춘천시", "원주시"], "bar_9": [19.83, 19.63, 18.98, 18.92, 18.85, 18.47, 18.43, 18.31, 17.78, 17.75, 16.88, 15.12, 14.95, 14.37, 13.98, 13.23, 12.86, 11.46], "bar_8": [19.12, 19.58, 17.91, 18.21, 16.31, 17.86, 17.04, 18.29, 18.02, 18.68, 15.1, 12.22, 12.19, 14.3, 12.95, 12.13, 11.64, 10.3], "bar_pred_18": [19.83, 19.63, 18.98, 18.92, 18.85, 18.47, 18.43, 18.31, 17.78, 17.75, 16.88, 15.12, 14.95, 14.37, 13.98, 13.23, 12.86, 11.46], "diff_regions": ["속초시", "철원군", "양양군", "고성군", "영월군", "춘천시", "원주시", "강릉시", "화천군", "동해시", "태백시", "정선군", "삼척시", "홍천군", "평창군", "양구군", "횡성군", "인제군"], "diff_values": [2.9, 2.76, 2.54, 1.78, 1.39, 1.22, 1.16, 1.1, 1.07, 1.03, 0.71, 0.71, 0.61, 0.07, 0.05, 0.02, -0.24, -0.93], "markers": [{"region": "정선군", "x": 0.6, "y": 0.66, "p": 19.83, "p8": 19.12, "diff": 0.71, "pred": 19.83, "color": "#ef4444", "size": 56, "electors": 32424, "count": 6429}, {"region": "평창군", "x": 0.52, "y": 0.58, "p": 19.63, "p8": 19.58, "diff": 0.05, "pred": 19.63, "color": "#ef4444", "size": 56, "electors": 36827, "count": 7229}, {"region": "화천군", "x": 0.3, "y": 0.18, "p": 18.98, "p8": 17.91, "diff": 1.07, "pred": 18.98, "color": "#ef4444", "size": 56, "electors": 19910, "count": 3779}, {"region": "태백시", "x": 0.66, "y": 0.82, "p": 18.92, "p8": 18.21, "diff": 0.71, "pred": 18.92, "color": "#ef4444", "size": 56, "electors": 32945, "count": 6232}, {"region": "양양군", "x": 0.7, "y": 0.4, "p": 18.85, "p8": 16.31, "diff": 2.54, "pred": 18.85, "color": "#ef4444", "size": 56, "electors": 25006, "count": 4714}, {"region": "삼척시", "x": 0.78, "y": 0.78, "p": 18.47, "p8": 17.86, "diff": 0.61, "pred": 18.47, "color": "#ef4444", "size": 56, "electors": 54529, "count": 10074}, {"region": "영월군", "x": 0.46, "y": 0.78, "p": 18.43, "p8": 17.04, "diff": 1.39, "pred": 18.43, "color": "#ef4444", "size": 56, "electors": 32788, "count": 6042}, {"region": "양구군", "x": 0.4, "y": 0.16, "p": 18.31, "p8": 18.29, "diff": 0.02, "pred": 18.31, "color": "#ef4444", "size": 56, "electors": 17718, "count": 3244}, {"region": "횡성군", "x": 0.32, "y": 0.55, "p": 17.78, "p8": 18.02, "diff": -0.24, "pred": 17.78, "color": "#ef4444", "size": 56, "electors": 41729, "count": 7420}, {"region": "인제군", "x": 0.5, "y": 0.22, "p": 17.75, "p8": 18.68, "diff": -0.93, "pred": 17.75, "color": "#ef4444", "size": 56, "electors": 27221, "count": 4832}, {"region": "고성군", "x": 0.66, "y": 0.18, "p": 16.88, "p8": 15.1, "diff": 1.78, "pred": 16.88, "color": "#ef4444", "size": 56, "electors": 24697, "count": 4168}, {"region": "속초시", "x": 0.7, "y": 0.3, "p": 15.12, "p8": 12.22, "diff": 2.9, "pred": 15.12, "color": "#ef4444", "size": 56, "electors": 69527, "count": 10512}, {"region": "철원군", "x": 0.18, "y": 0.1, "p": 14.95, "p8": 12.19, "diff": 2.76, "pred": 14.95, "color": "#ef4444", "size": 56, "electors": 35270, "count": 5272}, {"region": "홍천군", "x": 0.4, "y": 0.42, "p": 14.37, "p8": 14.3, "diff": 0.07, "pred": 14.37, "color": "#ef4444", "size": 56, "electors": 59780, "count": 8589}, {"region": "동해시", "x": 0.78, "y": 0.62, "p": 13.98, "p8": 12.95, "diff": 1.03, "pred": 13.98, "color": "#ef4444", "size": 56, "electors": 74929, "count": 10478}, {"region": "강릉시", "x": 0.7, "y": 0.52, "p": 13.23, "p8": 12.13, "diff": 1.1, "pred": 13.23, "color": "#ef4444", "size": 55.8, "electors": 182963, "count": 24201}, {"region": "춘천시", "x": 0.28, "y": 0.3, "p": 12.86, "p8": 11.64, "diff": 1.22, "pred": 12.86, "color": "#fb923c", "size": 54.9, "electors": 247875, "count": 31877}, {"region": "원주시", "x": 0.22, "y": 0.66, "p": 11.46, "p8": 10.3, "diff": 1.16, "pred": 11.46, "color": "#fb923c", "size": 51.5, "electors": 313604, "count": 35954}]};
+Chart.defaults.color = '#475569';
+Chart.defaults.borderColor = '#eef1f6';
+Chart.defaults.font.family = "Pretendard, -apple-system, 'Malgun Gothic', sans-serif";
+
+// ===== Line chart =====
+const predLine = D.total9_pred.map((v,i) => i < D.latest_idx ? null : v);
+new Chart(document.getElementById('lineChart'), {
+  type: 'line',
+  data: {
+    labels: D.hours,
+    datasets: [
+      { label: '제9회 (실측)', data: D.total9_actual,
+         borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.18)',
+         borderWidth: 3, tension: 0.35, fill: true,
+         pointRadius: 4, pointBackgroundColor: '#3b82f6',
+         pointBorderColor: '#fff', pointBorderWidth: 2 },
+      { label: '제9회 (예측)', data: predLine,
+         borderColor: '#a78bfa', borderWidth: 2.5, borderDash: [6,5], tension: 0.35,
+         pointRadius: 4, pointBackgroundColor: '#a78bfa',
+         pointBorderColor: '#fff', pointBorderWidth: 2 },
+      { label: '제8회 (2022)', data: D.total8_pcts,
+         borderColor: '#f59e0b', borderWidth: 2, tension: 0.35, fill: false,
+         pointRadius: 3, pointBackgroundColor: '#f59e0b' },
+    ]
+  },
+  options: {
+    responsive: true, maintainAspectRatio: false,
+    interaction: { mode: 'index', intersect: false },
+    plugins: {
+      legend: { position: 'top', labels: { usePointStyle: true, padding: 12 } },
+      tooltip: { backgroundColor: 'rgba(15,23,42,0.95)', titleColor:'#fbbf24',
+        callbacks: { label: (c) => `${c.dataset.label}: ${c.parsed.y?.toFixed(2)}%` } },
+    },
+    scales: {
+      y: { ticks: { callback: v => v + '%' }, grid: { color: '#eef1f6' } },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+</script>
+</body>
+</html>
