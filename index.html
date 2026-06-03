@@ -956,23 +956,57 @@
     50% { opacity: 0.4; transform: scale(0.7); }
   }
 
+  /* ===== 햄버거 (모바일) ===== */
+  .mobile-menu-btn {
+    display: none;
+    background: #fff; border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 8px 12px; cursor: pointer;
+    align-items: center; gap: 6px; font-size: 13px; font-weight: 700;
+    color: var(--text-primary);
+  }
+  .mobile-menu-btn svg { width: 18px; height: 18px; }
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 99; backdrop-filter: blur(2px);
+  }
+  .sidebar-backdrop.show { display: block; }
+
   @media (max-width: 1200px) {
-    .sidebar { transform: translateX(-100%); position: fixed; left: 0; height: 100vh; }
-    .sidebar.open { transform: translateX(0); }
+    .sidebar { transform: translateX(-100%); position: fixed; left: 0; top: 0; height: 100vh; z-index: 110; }
+    .sidebar.open { transform: translateX(0); box-shadow: 4px 0 30px rgba(0,0,0,0.3); }
     .kpi-grid { grid-template-columns: repeat(3, 1fr); }
     .row.r-main { grid-template-columns: 1fr; }
     .tabs { display: inline-flex; }
   }
-  @media (max-width: 768px) {
-    .main-content { padding: 20px; }
-    .header { flex-direction: column; align-items: flex-start; }
-    .header-actions { width: 100%; justify-content: space-between; }
-    .search-container { flex: 1; }
-    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) {
+    .mobile-menu-btn { display: inline-flex; }
+    .app-layout { display: block; min-height: auto; }
+    .main-content { padding: 16px 14px; height: auto; overflow: visible; }
+    .header { flex-direction: row; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .header-title-area { order: 2; flex-basis: 100%; }
+    .header-actions { order: 3; flex-basis: 100%; justify-content: flex-start; }
+    .search-container { flex: 1; min-width: 0; }
+    .kbd { display: none; }
+    .status-badge { white-space: nowrap; }
+    .hero { grid-template-columns: 1fr !important; padding: 18px !important; gap: 14px; }
+    .hero-r { text-align: left !important; min-width: 0 !important; padding: 12px 14px !important; }
+    .hero h1 { font-size: 17px !important; line-height: 1.35 !important; }
+    .hero p { font-size: 12px !important; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .kpi-card { padding: 14px; }
+    .kpi-value { font-size: 22px !important; }
+    .kpi-label { font-size: 11px !important; }
     .m-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .row { min-width: 0; }
+    .card { min-width: 0; max-width: 100%; overflow: hidden; padding: 16px !important; }
+    .card h3 { font-size: 14.5px !important; }
+    .badges { gap: 5px !important; flex-wrap: wrap; }
+    .live, .liveClosed, .day-pill { font-size: 10px !important; padding: 4px 9px !important; white-space: nowrap; }
+    .ts { font-size: 10.5px !important; }
   }
   @media (max-width: 480px) {
     .kpi-grid { grid-template-columns: 1fr; }
+    .hero h1 { font-size: 16px !important; }
   }
 
   /* 본투표 라이브 표시 */
@@ -1022,11 +1056,117 @@
   .vote-table .pos { color: #059669; font-weight: 800; }
   .vote-table .neg { color: #dc2626; font-weight: 800; }
   .vote-table .zero { color: var(--text-muted); }
+
+  /* ===== Hero 내부 사전+본투표 강조 분리 ===== */
+  .hero-breakdown {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 12px; flex-wrap: wrap;
+  }
+  .bd-item {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 10px;
+    font-weight: 800;
+  }
+  .bd-early {
+    background: rgba(255,255,255,0.10);
+    color: rgba(255,255,255,0.92);
+    font-size: 13px;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+  .bd-plus { color: rgba(255,255,255,0.55); font-size: 16px; font-weight: 800; }
+  .bd-main {
+    background: linear-gradient(135deg, rgba(196,242,76,0.18), rgba(196,242,76,0.08));
+    border: 1px solid rgba(196,242,76,0.45);
+    box-shadow: 0 0 18px rgba(196,242,76,0.25);
+    padding: 8px 16px;
+  }
+  .bd-main .bd-label {
+    color: rgba(196,242,76,0.85); font-size: 11px;
+    font-weight: 700; letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .bd-main .bd-value {
+    color: #d8ff66; font-size: 20px; font-weight: 900;
+    letter-spacing: -0.5px;
+  }
+
+  /* ===== 햄버거 (모바일 사이드바 토글) ===== */
+  .mobile-menu-btn {
+    display: none;
+    background: #fff; border: 1px solid var(--border-color);
+    border-radius: 12px; padding: 8px 12px; cursor: pointer;
+    align-items: center; gap: 6px; font-size: 13px; font-weight: 700;
+    color: var(--text-primary);
+  }
+  .mobile-menu-btn svg { width: 18px; height: 18px; }
+  .sidebar-backdrop {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45);
+    z-index: 99; backdrop-filter: blur(2px);
+  }
+  .sidebar-backdrop.show { display: block; }
+
+  /* ===== 모바일 레이아웃 ===== */
+  @media (max-width: 900px) {
+    .mobile-menu-btn { display: inline-flex; }
+    .app-layout { display: block; min-height: auto; }
+    .sidebar {
+      position: fixed; top: 0; left: 0; height: 100vh;
+      transform: translateX(-100%); z-index: 110;
+    }
+    .sidebar.open { transform: translateX(0) !important; box-shadow: 4px 0 30px rgba(0,0,0,0.3); }
+    .main-content { padding: 16px 14px; height: auto; overflow: visible; }
+    .header { gap: 10px; }
+    .hero {
+      grid-template-columns: 1fr !important;
+      padding: 18px 18px !important;
+      gap: 14px;
+    }
+    .hero-r {
+      text-align: left !important;
+      min-width: 0 !important;
+      padding: 12px 14px !important;
+    }
+    .hero-r .big, .hero-r [style*="font-size: 38px"] {
+      font-size: 28px !important;
+    }
+    .hero h1 { font-size: 17px !important; line-height: 1.35 !important; }
+    .hero p { font-size: 12px !important; }
+    .row[style*="grid-template-columns"] {
+      display: flex !important;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .donut-wrap { flex-direction: column !important; gap: 10px; }
+    .donut-wrap canvas { max-width: 180px !important; margin: 0 auto; }
+    .card { padding: 16px !important; }
+    .card h3 { font-size: 14.5px !important; }
+    .row { min-width: 0; }
+    .card { min-width: 0; max-width: 100%; overflow: hidden; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; max-width: 100%; }
+    .vote-table { font-size: 11px; min-width: 560px; }
+    .vote-table th, .vote-table td { padding: 7px 6px; white-space: nowrap; }
+    .vote-table th { font-size: 10px; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .kpi-card { padding: 14px !important; }
+    .kpi-value { font-size: 22px !important; }
+    .kpi-label { font-size: 11px !important; }
+    .badges { gap: 5px !important; flex-wrap: wrap; }
+    .live-pulse, .liveClosed, .day-pill { font-size: 10px !important; padding: 4px 9px !important; }
+    .ts { font-size: 10.5px !important; }
+  }
+  @media (max-width: 480px) {
+    .kpi-grid { grid-template-columns: 1fr !important; }
+    .hero h1 { font-size: 16px !important; }
+    .vote-table th:nth-child(6), .vote-table td:nth-child(6),
+    .vote-table th:nth-child(7), .vote-table td:nth-child(7) { display: none; }
+  }
 </style>
 </head>
 <body>
 
 <div class="app-layout">
+
+  <div class="sidebar-backdrop" onclick="document.querySelector('.sidebar').classList.remove('open'); this.classList.remove('show');"></div>
 
   <!-- ===== SIDEBAR ===== -->
   <aside class="sidebar">
@@ -1095,6 +1235,10 @@
   <main class="main-content">
 
     <header class="header">
+      <button class="mobile-menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open'); document.querySelector('.sidebar-backdrop').classList.toggle('show');">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        메뉴
+      </button>
       <div class="header-title-area">
         <div class="breadcrumb">GANGWON-DO · LOCAL ELECTION · 본투표</div>
         <h1>강원도 본투표 실시간 대시보드</h1>
@@ -1110,17 +1254,24 @@
         <div class="badges">
           <span class="live-pulse">LIVE · 본투표 진행중</span>
           <span class="day-pill">제9회 지방선거 · 본투표</span>
-          <span class="ts">2026-06-03 · 12시 기준</span>
+          <span class="ts">2026-06-03</span>
         </div>
         <h1>강원도 18개 시·군, 본투표 누적 <strong>48.94%</strong></h1>
-        <p style="color: rgba(255,255,255,0.78); font-size: 13.5px; margin-top: 6px;">
-          사전투표 27.34% + 본투표 진행분 21.60% &nbsp;·&nbsp;
+        <div class="hero-breakdown">
+          <span class="bd-item bd-early">사전 27.34%</span>
+          <span class="bd-plus">+</span>
+          <span class="bd-item bd-main">
+            <span class="bd-label">본투표 진행분</span>
+            <span class="bd-value">21.60%</span>
+          </span>
+        </div>
+        <p style="color: rgba(255,255,255,0.7); font-size: 12.5px; margin-top: 10px;">
           8회 동시각 대비 +4.98%p &nbsp;·&nbsp;
           7회 동시각 대비 +2.90%p
         </p>
       </div>
       <div class="hero-r">
-        <div class="cap">🔮 18시 최종 예측 (현재 12시)</div>
+        <div class="cap">🔮 18시 최종 예측</div>
         <div class="big" style="color: #c4f24c; font-size: 38px; font-weight: 900; letter-spacing: -1px; margin-top: 4px;">63.57%</div>
         <div style="color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 4px;">
           8회 최종 57.10% &nbsp;·&nbsp; 예측 격차 +6.47%p
