@@ -3,16 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>강원도 본투표 — 제9회 지방선거 (12시)</title>
+<title>강원도 본투표 — 제9회 지방선거 (13시)</title>
 <meta name="description" content="강원도 18개 시·군 본투표 실시간 현황과 8회·7회 동시각 비교. 8회 곡선 비례 18시 최종 예측 포함.">
 <meta property="og:title" content="강원도 본투표 — 제9회 지방선거">
-<meta property="og:description" content="현재 12시 누적 투표율 48.94% · 18시 예측 63.57%">
+<meta property="og:description" content="현재 13시 누적 투표율 51.80% · 18시 예측 63.75%">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://pbs586.github.io/29/og3.png?v=main-12시">
+<meta property="og:image" content="https://pbs586.github.io/29/og3.png?v=main-13시">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://pbs586.github.io/29/og3.png?v=main-12시">
+<meta name="twitter:image" content="https://pbs586.github.io/29/og3.png?v=main-13시">
 
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1069,9 +1069,17 @@
   }
   .bd-early {
     background: rgba(255,255,255,0.10);
-    color: rgba(255,255,255,0.92);
-    font-size: 13px;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.18);
+    padding: 8px 14px;
+  }
+  .bd-early .bd-label {
+    color: rgba(255,255,255,0.72); font-size: 11px;
+    font-weight: 700; letter-spacing: 0.4px;
+    text-transform: uppercase;
+  }
+  .bd-early .bd-value-sm {
+    color: #fff; font-size: 16px; font-weight: 900;
+    letter-spacing: -0.3px;
   }
   .bd-plus { color: rgba(255,255,255,0.55); font-size: 16px; font-weight: 800; }
   .bd-main {
@@ -1088,6 +1096,12 @@
   .bd-main .bd-value {
     color: #d8ff66; font-size: 20px; font-weight: 900;
     letter-spacing: -0.5px;
+  }
+  .hero-note {
+    color: rgba(255,255,255,0.62); font-size: 11.5px;
+    margin-top: 8px; line-height: 1.45;
+    background: rgba(0,0,0,0.18); padding: 6px 10px; border-radius: 8px;
+    border-left: 2px solid rgba(196,242,76,0.5);
   }
 
   /* ===== 햄버거 (모바일 사이드바 토글) ===== */
@@ -1186,7 +1200,7 @@
               <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
               본투표 (LIVE)
             </span>
-            <span class="nav-badge">48.94%</span>
+            <span class="nav-badge">51.80%</span>
           </a>
         </li>
         <li class="nav-item">
@@ -1244,7 +1258,7 @@
         <h1>강원도 본투표 실시간 대시보드</h1>
       </div>
       <div class="header-actions">
-        <span class="status-badge badge-live">12시 기준</span>
+        <span class="status-badge badge-live">13시 기준</span>
       </div>
     </header>
 
@@ -1256,25 +1270,31 @@
           <span class="day-pill">제9회 지방선거 · 본투표</span>
           <span class="ts">2026-06-03</span>
         </div>
-        <h1>강원도 18개 시·군, 본투표 누적 <strong>48.94%</strong></h1>
+        <h1>강원도 18개 시·군, 본투표 누적 <strong>51.80%</strong></h1>
         <div class="hero-breakdown">
-          <span class="bd-item bd-early">사전 27.34%</span>
+          <span class="bd-item bd-early">
+            <span class="bd-label">사전+거소</span>
+            <span class="bd-value-sm">27.34%</span>
+          </span>
           <span class="bd-plus">+</span>
           <span class="bd-item bd-main">
             <span class="bd-label">본투표 진행분</span>
-            <span class="bd-value">21.60%</span>
+            <span class="bd-value">24.46%</span>
           </span>
         </div>
-        <p style="color: rgba(255,255,255,0.7); font-size: 12.5px; margin-top: 10px;">
-          8회 동시각 대비 +4.98%p &nbsp;·&nbsp;
-          7회 동시각 대비 +2.90%p
+        <p class="hero-note">
+          ※ 사전+거소 27.34% = 보도된 사전투표율 27.05% + 거소(우편)투표 0.29%p
+        </p>
+        <p style="color: rgba(255,255,255,0.7); font-size: 12.5px; margin-top: 6px;">
+          8회 동시각 대비 +5.40%p &nbsp;·&nbsp;
+          7회 동시각 대비 +2.70%p
         </p>
       </div>
       <div class="hero-r">
         <div class="cap">🔮 18시 최종 예측</div>
-        <div class="big" style="color: #c4f24c; font-size: 38px; font-weight: 900; letter-spacing: -1px; margin-top: 4px;">63.57%</div>
+        <div class="big" style="color: #c4f24c; font-size: 38px; font-weight: 900; letter-spacing: -1px; margin-top: 4px;">63.75%</div>
         <div style="color: rgba(255,255,255,0.7); font-size: 12px; margin-top: 4px;">
-          8회 최종 57.10% &nbsp;·&nbsp; 예측 격차 +6.47%p
+          8회 최종 57.10% &nbsp;·&nbsp; 예측 격차 +6.65%p
         </div>
       </div>
     </section>
@@ -1282,26 +1302,26 @@
     <!-- KPI -->
     <section class="kpi-grid">
   <div class="kpi-card">
-    <div class="kpi-label">현재(12시) 누적 투표율</div>
-    <div class="kpi-value">48.94<span class="kpi-unit">%</span></div>
-    <div class="kpi-sub">투표자 650,474명 · 선거인 1,329,742명</div>
+    <div class="kpi-label">현재(13시) 누적 투표율</div>
+    <div class="kpi-value">51.80<span class="kpi-unit">%</span></div>
+    <div class="kpi-sub">투표자 689,293명 · 선거인 1,329,742명</div>
   </div>
   <div class="kpi-card">
     <div class="kpi-label">8회 동시각 대비</div>
     <div class="kpi-value" style="color: #10b981;">
-      +4.98<span class="kpi-unit">%p</span>
+      +5.40<span class="kpi-unit">%p</span>
     </div>
-    <div class="kpi-sub">8회 동시각 43.96% · 7회 46.04%</div>
+    <div class="kpi-sub">8회 동시각 46.40% · 7회 49.10%</div>
   </div>
   <div class="kpi-card">
-    <div class="kpi-label">사전투표 확정</div>
+    <div class="kpi-label">사전+거소 누계 (확정)</div>
     <div class="kpi-value">27.34<span class="kpi-unit">%</span></div>
-    <div class="kpi-sub">8회 25.56% · 7회 22.64%</div>
+    <div class="kpi-sub">사전 27.05% + 거소 0.29%p · 8회 25.56%</div>
   </div>
   <div class="kpi-card kpi-highlight">
     <div class="kpi-label">18시 최종 예측</div>
-    <div class="kpi-value">63.57<span class="kpi-unit">%</span></div>
-    <div class="kpi-sub">8회 최종 57.10% · 예측 격차 +6.47%p</div>
+    <div class="kpi-value">63.75<span class="kpi-unit">%</span></div>
+    <div class="kpi-sub">8회 최종 57.10% · 예측 격차 +6.65%p</div>
   </div>
 </section>
 
@@ -1333,9 +1353,10 @@
         <div class="donut-wrap">
           <canvas id="donutChart"></canvas>
           <div class="donut-legend">
-            <div><span class="sw" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"></span>사전투표 (확정)<span class="val">27.34%</span></div>
-            <div><span class="sw" style="background: linear-gradient(135deg, #10b981, #059669);"></span>본투표 (12시)<span class="val">21.60%</span></div>
-            <div><span class="sw" style="background: #e2e8f0;"></span>미투표<span class="val">51.06%</span></div>
+            <div><span class="sw" style="background: linear-gradient(135deg, #6366f1, #8b5cf6);"></span>사전+거소 (확정)<span class="val">27.34%</span></div>
+            <div style="font-size: 11.5px; color: var(--text-muted); padding-left: 20px; margin-top: -2px;">└ 사전 27.05% + 거소(우편) 0.29%p</div>
+            <div><span class="sw" style="background: linear-gradient(135deg, #10b981, #059669);"></span>본투표 (13시)<span class="val">24.46%</span></div>
+            <div><span class="sw" style="background: #e2e8f0;"></span>미투표<span class="val">48.20%</span></div>
           </div>
         </div>
         <div style="margin-top: 18px;">
@@ -1355,7 +1376,7 @@
       <div class="card" id="gap-chart-card">
         <h3>
           <svg viewBox="0 0 24 24" width="18" height="18" style="stroke: var(--accent-blue); fill: none; stroke-width: 2.2; vertical-align: middle; margin-right: 6px;"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline></svg>
-          시·군별 9회 − 8회 격차 (12시 동시각)
+          시·군별 9회 − 8회 격차 (13시 동시각)
         </h3>
         <p style="color: var(--text-muted); font-size: 12.5px; margin: -4px 0 12px;">
           18개 시·군 중 <strong style="color: #10b981;">18곳</strong>이 8회 동시각보다 높음
@@ -1371,7 +1392,7 @@
       <div class="card" style="flex: 1;">
         <h3>
           <svg viewBox="0 0 24 24" width="18" height="18" style="stroke: var(--text-primary); fill: none; stroke-width: 2.2; vertical-align: middle; margin-right: 6px;"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-          시·군별 상세 (12시 기준, 사전 포함 누적)
+          시·군별 상세 (13시 기준, 사전 포함 누적)
         </h3>
         <div class="table-wrap">
           <table class="vote-table">
@@ -1390,202 +1411,202 @@
             </thead>
             <tbody>
     <tr>
+      <td>양양군</td>
+      <td>25,006</td>
+      <td>33.72%</td>
+      <td><strong>61.90%</strong></td>
+      <td>55.40%</td>
+      <td>62.00%</td>
+      <td class="pos">+6.50</td>
+      <td class="neg">-0.10</td>
+      <td style="color: #6366f1; font-weight: 800;">72.85%</td>
+    </tr>
+    <tr>
       <td>정선군</td>
       <td>32,424</td>
       <td>33.74%</td>
-      <td><strong>58.84%</strong></td>
-      <td>56.54%</td>
-      <td>54.63%</td>
-      <td class="pos">+2.30</td>
-      <td class="pos">+4.21</td>
-      <td style="color: #6366f1; font-weight: 800;">71.49%</td>
+      <td><strong>61.30%</strong></td>
+      <td>58.70%</td>
+      <td>57.20%</td>
+      <td class="pos">+2.60</td>
+      <td class="pos">+4.10</td>
+      <td style="color: #6366f1; font-weight: 800;">71.74%</td>
     </tr>
     <tr>
       <td>화천군</td>
       <td>19,910</td>
       <td>33.54%</td>
-      <td><strong>58.54%</strong></td>
-      <td>53.34%</td>
-      <td>59.68%</td>
-      <td class="pos">+5.20</td>
-      <td class="neg">-1.14</td>
-      <td style="color: #6366f1; font-weight: 800;">71.67%</td>
-    </tr>
-    <tr>
-      <td>양양군</td>
-      <td>25,006</td>
-      <td>33.72%</td>
-      <td><strong>58.52%</strong></td>
-      <td>53.11%</td>
-      <td>59.36%</td>
-      <td class="pos">+5.41</td>
-      <td class="neg">-0.84</td>
-      <td style="color: #6366f1; font-weight: 800;">71.84%</td>
+      <td><strong>61.20%</strong></td>
+      <td>55.50%</td>
+      <td>62.70%</td>
+      <td class="pos">+5.70</td>
+      <td class="neg">-1.50</td>
+      <td style="color: #6366f1; font-weight: 800;">72.01%</td>
     </tr>
     <tr>
       <td>평창군</td>
       <td>36,827</td>
       <td>34.25%</td>
-      <td><strong>58.45%</strong></td>
-      <td>55.01%</td>
-      <td>53.66%</td>
-      <td class="pos">+3.44</td>
-      <td class="pos">+4.79</td>
-      <td style="color: #6366f1; font-weight: 800;">71.40%</td>
+      <td><strong>60.80%</strong></td>
+      <td>57.20%</td>
+      <td>56.20%</td>
+      <td class="pos">+3.60</td>
+      <td class="pos">+4.60</td>
+      <td style="color: #6366f1; font-weight: 800;">71.43%</td>
     </tr>
     <tr>
       <td>양구군</td>
       <td>17,718</td>
       <td>33.57%</td>
-      <td><strong>58.07%</strong></td>
-      <td>53.83%</td>
-      <td>56.79%</td>
-      <td class="pos">+4.24</td>
-      <td class="pos">+1.28</td>
-      <td style="color: #6366f1; font-weight: 800;">74.11%</td>
+      <td><strong>60.80%</strong></td>
+      <td>58.10%</td>
+      <td>59.70%</td>
+      <td class="pos">+2.70</td>
+      <td class="pos">+1.10</td>
+      <td style="color: #6366f1; font-weight: 800;">71.89%</td>
     </tr>
     <tr>
       <td>영월군</td>
       <td>32,788</td>
       <td>32.23%</td>
-      <td><strong>57.23%</strong></td>
-      <td>53.65%</td>
-      <td>53.54%</td>
-      <td class="pos">+3.58</td>
-      <td class="pos">+3.69</td>
-      <td style="color: #6366f1; font-weight: 800;">70.51%</td>
+      <td><strong>59.80%</strong></td>
+      <td>55.80%</td>
+      <td>56.20%</td>
+      <td class="pos">+4.00</td>
+      <td class="pos">+3.60</td>
+      <td style="color: #6366f1; font-weight: 800;">70.84%</td>
     </tr>
     <tr>
       <td>횡성군</td>
       <td>41,729</td>
       <td>32.42%</td>
-      <td><strong>56.62%</strong></td>
-      <td>54.01%</td>
-      <td>53.85%</td>
-      <td class="pos">+2.61</td>
-      <td class="pos">+2.77</td>
-      <td style="color: #6366f1; font-weight: 800;">69.29%</td>
+      <td><strong>59.30%</strong></td>
+      <td>56.30%</td>
+      <td>56.80%</td>
+      <td class="pos">+3.00</td>
+      <td class="pos">+2.50</td>
+      <td style="color: #6366f1; font-weight: 800;">69.62%</td>
     </tr>
     <tr>
       <td>고성군</td>
       <td>24,697</td>
       <td>29.67%</td>
-      <td><strong>56.27%</strong></td>
-      <td>54.28%</td>
-      <td>56.85%</td>
-      <td class="pos">+1.99</td>
-      <td class="neg">-0.58</td>
-      <td style="color: #6366f1; font-weight: 800;">69.66%</td>
+      <td><strong>58.90%</strong></td>
+      <td>56.70%</td>
+      <td>59.50%</td>
+      <td class="pos">+2.20</td>
+      <td class="neg">-0.60</td>
+      <td style="color: #6366f1; font-weight: 800;">69.81%</td>
     </tr>
     <tr>
       <td>태백시</td>
       <td>32,945</td>
       <td>33.83%</td>
-      <td><strong>56.13%</strong></td>
-      <td>50.98%</td>
-      <td>49.53%</td>
-      <td class="pos">+5.15</td>
-      <td class="pos">+6.60</td>
-      <td style="color: #6366f1; font-weight: 800;">69.47%</td>
+      <td><strong>58.60%</strong></td>
+      <td>53.70%</td>
+      <td>47.20%</td>
+      <td class="pos">+4.90</td>
+      <td class="pos">+11.40</td>
+      <td style="color: #6366f1; font-weight: 800;">68.86%</td>
     </tr>
     <tr>
       <td>삼척시</td>
       <td>54,529</td>
       <td>32.64%</td>
-      <td><strong>54.64%</strong></td>
-      <td>52.89%</td>
-      <td>52.89%</td>
-      <td class="pos">+1.75</td>
-      <td class="pos">+1.75</td>
-      <td style="color: #6366f1; font-weight: 800;">67.67%</td>
+      <td><strong>57.50%</strong></td>
+      <td>55.20%</td>
+      <td>56.00%</td>
+      <td class="pos">+2.30</td>
+      <td class="pos">+1.50</td>
+      <td style="color: #6366f1; font-weight: 800;">68.23%</td>
     </tr>
     <tr>
       <td>인제군</td>
       <td>27,221</td>
       <td>31.90%</td>
-      <td><strong>54.20%</strong></td>
-      <td>53.48%</td>
-      <td>56.97%</td>
-      <td class="pos">+0.72</td>
-      <td class="neg">-2.77</td>
-      <td style="color: #6366f1; font-weight: 800;">66.69%</td>
+      <td><strong>56.80%</strong></td>
+      <td>56.00%</td>
+      <td>60.40%</td>
+      <td class="pos">+0.80</td>
+      <td class="neg">-3.60</td>
+      <td style="color: #6366f1; font-weight: 800;">66.74%</td>
     </tr>
     <tr>
       <td>철원군</td>
       <td>35,270</td>
       <td>27.60%</td>
-      <td><strong>53.50%</strong></td>
-      <td>46.48%</td>
-      <td>49.53%</td>
-      <td class="pos">+7.02</td>
-      <td class="pos">+3.97</td>
-      <td style="color: #6366f1; font-weight: 800;">68.60%</td>
+      <td><strong>56.20%</strong></td>
+      <td>48.90%</td>
+      <td>52.90%</td>
+      <td class="pos">+7.30</td>
+      <td class="pos">+3.30</td>
+      <td style="color: #6366f1; font-weight: 800;">68.50%</td>
     </tr>
     <tr>
       <td>홍천군</td>
       <td>59,780</td>
       <td>27.35%</td>
-      <td><strong>52.35%</strong></td>
-      <td>47.58%</td>
-      <td>51.17%</td>
-      <td class="pos">+4.77</td>
-      <td class="pos">+1.18</td>
-      <td style="color: #6366f1; font-weight: 800;">66.13%</td>
+      <td><strong>55.00%</strong></td>
+      <td>50.00%</td>
+      <td>53.70%</td>
+      <td class="pos">+5.00</td>
+      <td class="pos">+1.30</td>
+      <td style="color: #6366f1; font-weight: 800;">66.11%</td>
     </tr>
     <tr>
       <td>속초시</td>
       <td>69,527</td>
       <td>26.66%</td>
-      <td><strong>48.16%</strong></td>
-      <td>38.66%</td>
-      <td>42.33%</td>
-      <td class="pos">+9.50</td>
-      <td class="pos">+5.83</td>
-      <td style="color: #6366f1; font-weight: 800;">63.53%</td>
+      <td><strong>50.90%</strong></td>
+      <td>40.60%</td>
+      <td>45.40%</td>
+      <td class="pos">+10.30</td>
+      <td class="pos">+5.50</td>
+      <td style="color: #6366f1; font-weight: 800;">63.94%</td>
     </tr>
     <tr>
       <td>동해시</td>
       <td>74,929</td>
       <td>27.10%</td>
-      <td><strong>47.70%</strong></td>
-      <td>41.40%</td>
-      <td>44.32%</td>
-      <td class="pos">+6.30</td>
-      <td class="pos">+3.38</td>
-      <td style="color: #6366f1; font-weight: 800;">62.33%</td>
+      <td><strong>50.40%</strong></td>
+      <td>43.60%</td>
+      <td>47.50%</td>
+      <td class="pos">+6.80</td>
+      <td class="pos">+2.90</td>
+      <td style="color: #6366f1; font-weight: 800;">62.54%</td>
     </tr>
     <tr>
       <td>강릉시</td>
       <td>182,963</td>
       <td>25.61%</td>
-      <td><strong>46.81%</strong></td>
-      <td>41.26%</td>
-      <td>42.78%</td>
-      <td class="pos">+5.55</td>
-      <td class="pos">+4.03</td>
-      <td style="color: #6366f1; font-weight: 800;">61.49%</td>
+      <td><strong>49.90%</strong></td>
+      <td>43.60%</td>
+      <td>46.00%</td>
+      <td class="pos">+6.30</td>
+      <td class="pos">+3.90</td>
+      <td style="color: #6366f1; font-weight: 800;">62.03%</td>
     </tr>
     <tr>
       <td>춘천시</td>
       <td>247,875</td>
       <td>25.35%</td>
-      <td><strong>46.25%</strong></td>
-      <td>40.83%</td>
-      <td>43.29%</td>
-      <td class="pos">+5.42</td>
-      <td class="pos">+2.96</td>
-      <td style="color: #6366f1; font-weight: 800;">63.09%</td>
+      <td><strong>49.30%</strong></td>
+      <td>43.60%</td>
+      <td>46.80%</td>
+      <td class="pos">+5.70</td>
+      <td class="pos">+2.50</td>
+      <td style="color: #6366f1; font-weight: 800;">62.98%</td>
     </tr>
     <tr>
       <td>원주시</td>
       <td>313,604</td>
       <td>24.00%</td>
-      <td><strong>42.90%</strong></td>
-      <td>37.71%</td>
-      <td>39.27%</td>
-      <td class="pos">+5.19</td>
-      <td class="pos">+3.63</td>
-      <td style="color: #6366f1; font-weight: 800;">57.79%</td>
+      <td><strong>46.00%</strong></td>
+      <td>40.00%</td>
+      <td>42.60%</td>
+      <td class="pos">+6.00</td>
+      <td class="pos">+3.40</td>
+      <td style="color: #6366f1; font-weight: 800;">58.42%</td>
     </tr></tbody>
           </table>
         </div>
@@ -1609,7 +1630,7 @@ new Chart(document.getElementById('lineChart'), {
     datasets: [
       {
         label: '9회 실측',
-        data: [29.84, 33.04, 36.54, 40.64, 44.94, 48.94, null, null, null, null, null, null],
+        data: [29.84, 33.04, 36.54, 40.64, 44.94, 48.94, 51.800000000000004, null, null, null, null, null],
         borderColor: '#4f46e5', backgroundColor: 'rgba(79,70,229,0.08)',
         borderWidth: 3, pointRadius: 5, pointBackgroundColor: '#4f46e5',
         tension: 0.3, fill: true,
@@ -1617,7 +1638,7 @@ new Chart(document.getElementById('lineChart'), {
       },
       {
         label: '9회 예측 (8회 비례)',
-        data: [29.84, 33.04, 36.54, 40.64, 44.94, 48.94, 51.66, 54.22, 56.78, 59.12, 61.34, 63.57],
+        data: [29.84, 33.04, 36.54, 40.64, 44.94, 48.94, 51.800000000000004, 54.37, 56.94, 59.28, 61.51, 63.75],
         borderColor: '#a78bfa', borderDash: [6, 4],
         borderWidth: 2.5, pointRadius: 3, pointBackgroundColor: '#a78bfa',
         tension: 0.3, fill: false,
@@ -1654,9 +1675,9 @@ new Chart(document.getElementById('lineChart'), {
 new Chart(document.getElementById('donutChart'), {
   type: 'doughnut',
   data: {
-    labels: ['사전투표', '본투표(12시)', '미투표'],
+    labels: ['사전투표', '본투표(13시)', '미투표'],
     datasets: [{
-      data: [27.34, 21.60, 51.06],
+      data: [27.34, 24.46, 48.20],
       backgroundColor: ['#8b5cf6', '#10b981', '#e2e8f0'],
       borderWidth: 0, hoverOffset: 8,
     }]
@@ -1672,10 +1693,10 @@ new Chart(document.getElementById('donutChart'), {
 new Chart(document.getElementById('divChart'), {
   type: 'bar',
   data: {
-    labels: ["속초시", "철원군", "동해시", "강릉시", "춘천시", "양양군", "화천군", "원주시", "태백시", "홍천군", "양구군", "영월군", "평창군", "횡성군", "정선군", "고성군", "삼척시", "인제군"],
+    labels: ["속초시", "철원군", "동해시", "양양군", "강릉시", "원주시", "화천군", "춘천시", "홍천군", "태백시", "영월군", "평창군", "횡성군", "양구군", "정선군", "삼척시", "고성군", "인제군"],
     datasets: [{
       label: '9회 − 8회 (동시각, %p)',
-      data: [9.5, 7.02, 6.3, 5.55, 5.42, 5.41, 5.2, 5.19, 5.15, 4.77, 4.24, 3.58, 3.44, 2.61, 2.3, 1.99, 1.75, 0.72],
+      data: [10.3, 7.3, 6.8, 6.5, 6.3, 6.0, 5.7, 5.7, 5.0, 4.9, 4.0, 3.6, 3.0, 2.7, 2.6, 2.3, 2.2, 0.8],
       backgroundColor: ctx => ctx.parsed.x >= 0 ? 'rgba(16,185,129,0.85)' : 'rgba(239,68,68,0.85)',
       borderRadius: 6,
     }]
